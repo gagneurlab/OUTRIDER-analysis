@@ -1,0 +1,100 @@
+All notations are introduced in the Materials and Methods section.
+
+\subsubsection*{Negative Binomial model}
+
+We use the following parameterization of the negative binomial distribution:
+
+\begin{align*}
+P(k| \mu, \theta) = \frac{\Gamma(k + \theta)}{\Gamma(\theta) k!}  
+\left ( \frac{\mu}{\mu + \theta} \right )^{k}
+\left ( \frac{\theta}{\mu + \theta} \right)^{\theta} 
+\end{align*}
+
+where the variance of the distribution is given by:
+
+\begin{align*}
+Var = \mu + \frac{\mu^2}{\theta}
+\end{align*}
+
+
+% I guess we don't need it from here till the autoencoder section any more.
+% and hence the coefficient of variation is given by:
+% \[
+% CV^2 = \frac{1}{\mu} + \frac{1}{\theta}
+% \]
+% 
+% 
+% \textbf{Computation of the default theta}
+% 
+% We assume, a biological covariation of 20\% for large means.
+% 
+% \begin{align*}
+% CV^2 =& \frac{1}{\mu} + \frac{1}{\theta}\\
+% \lim_{\mu \to \infty} CV^2 =& \frac{1}{\theta}\\
+% \theta \approx& \frac{1}{CV^2}
+% \end{align*}
+% and hence equate a default $\theta = 25$.
+
+\subsubsection*{Negative log-likelihood}
+
+The negative log-likelihood $\text{nll}$ of the model is given by:
+\begin{align*}
+\text{nll}=& -\sum_{ij} k_{ij} \log{(\mu_{ij})} - 
+\sum_{ij} \theta_j \log{(\theta_j)} +
+\sum_{ij} (k_{ij} + \theta_j) \log{(\mu_{ij} + \theta_j)} \\
+-&\sum_{ij} \log{(\Gamma(k_{ij} + \theta_j ))} 
++ \sum_{ij} \log{(\Gamma({\theta_j}) k_{ij}!)}
+\end{align*}
+
+
+For the optimization of the model only the first and third 
+term of the $\text{nll}$ need to be considered, as all other terms are independent of 
+$\matr{W}_e$ and $\matr{W}_d$, yielding the following truncated form of the 
+negative log likelihood:
+
+\begin{align} \label{eq:nll-w}
+\text{nll}_{\matr{W}} =& -\sum_{ij} \left[ k_{ij} \log{(\mu_{ij})} - (k_{ij} + \theta_j) \log{(\mu_{ij} + \theta_j)} \right]
+\end{align}
+
+
+We use L-BFGS to fit the autoencoder model as described in Methods.
+We implemented the following gradients.
+
+The expectations $\mu_{ij}$ are modeled by:
+\begin{align*}
+\mu_{ij} &= s_ie^{y_{ij}}
+\end{align*}
+
+Hence,  $\text{nll}_{\matr{W}}$ can be rewritten as:
+
+\begin{align*}
+\text{nll}_{\matr{W}} =&  
+- \sum_{ij} \left[ k_{ij} \log(s_i) + y_{ij} - (k_{ij} + \theta_j) \cdot \left( \log(s_i) + y_{ij} + \log\left(1 + \frac{\theta_j}{s_i \cdot e^{y_{ij}}}\right) \right) \right]
+\end{align*}
+
+In the following the $y_{ij}$ are the elements of the $\matr{Y}$ defined as:
+
+\begin{align}\label{eq:Y}
+\matr{Y} &= \matr{X} \matr{W}_e \matr{W}_d^T + \matr{b},
+\end{align}
+where the element $(i,j)$ of the matrix $\matr{X}$ is given by: 
+$\log{\left(\frac{k_{ij}+1}{s_i}\right)} - \bar{x}_j$. 
+
+\subsubsection*{Update of $\matr{W}_d$}
+
+The updating of the matrix $\matr{W}_d$ is performed gene-wise. 
+For each gene, the gene-wise average negative log likelihood is minimized. 
+To not run into convergence issues or numerical instability of the logarithm, we enforce $-700 < y_{ij}$.
+From Equation \ref{eq:nll-w} and Equation \ref{eq:Y}, we obtain the gradients:
+
+\begin{align*}
+    \frac{d\text{nll}}{d\matr{W}_e} &= \matr{K}^T \matr{X} \matr{W}_d - \matr{L}^T \matr{X} \matr{W}_d \\  
+    \frac{d\text{nll}}{d\matr{W}_d} &= \matr{X}^T \matr{K} \matr{W}_e - \matr{X}^T \matr{L} \matr{W}_e \\
+    \frac{d\text{nll}}{db_j} &= \sum_{i} k_{ij} - l_{ij}
+\end{align*}
+
+where the components of the matrix $\matr{L}$ are computed by:
+\begin{align*}
+    l_{ij} = \frac{(k_{ij} + \theta_j) \mu_{ij}}{\theta_j + \mu_{ij}}   
+\end{align*}
+

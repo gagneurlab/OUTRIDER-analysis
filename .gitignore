@@ -1,0 +1,45 @@
+# typical latex tmp files
+*.aux
+*.log
+*.synctex.gz
+*.bbl
+*.blg
+*.out
+# snakemake build
+Output
+Output*/
+auto
+.snakemake/
+src/latex/supplement_tex/main_supplement.pdf
+.wBuild*
+.snakemake.*
+VennDiagram2018-*_*-*.log
+# IDE project files
+*.project
+.Rproj.user
+.Rhistory
+.RData
+*.DS_Store
+Rplots.pdf
+# tmp files
+*~
+*.ipynb_*
+slurm-*.out
+__pycache__
+~$*
+*_cache
+*_files
+*.cache
+*readme.html
+data.RDS
+.~lock.*
+tmp.snakemake.RDS
+*.swp
+.nfs*
+Data/SRAmetadb.sqlite*
+Data/rawdata
+# Ignore data files
+*.gz
+Data/raw/
+plotBenchmark -merged.pdf
+OUTRIDER_analysis.Rproj

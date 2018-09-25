@@ -1,0 +1,179 @@
+\documentclass[a4paper,12pt]{article}
+
+%%% 
+%%% Settings
+%%%
+\usepackage{amsmath}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[comma,super]{natbib}
+\bibliographystyle{ajhg}
+\usepackage[section]{placeins}
+\geometry{left=20mm, top=20mm}
+\newcommand{\matr}[1]{\mathbf{#1}}
+
+% rename figures to supplemental figures
+\addto\captionsenglish{\renewcommand{\figurename}{\textbf{Figure}}}
+\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+
+% remove page numbers
+\pagenumbering{gobble}
+\graphicspath{{../../../Output/paper_figures/}}
+
+%%%
+%%% MAIN DOCUMENT
+%%%
+\begin{document}
+
+
+\section{Supplemental Figures}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS01_filtering.png}
+    \caption{\textbf{Filtering of genes.}
+\textbf{(A)} Histogram of the FPKM values for the GTEx data set grouped according to the filter status. Green indicates the genes that passed the filter and gray those that were filtered out. \textbf{(B)} Same as A, but for the Kremer data set.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{FigureS02_heatmaps_Kremer.png}
+    \\
+    \includegraphics[width=0.9\textwidth]{FigureS03_heatmaps_GTEx.png}
+    \caption{\textbf{Controlling count data for covariation.}
+\textbf{(A)} Correlation matrix of row-centered log-transformed read counts for the Kremer data set (119 samples and 10,556 genes). Red indicates a positive correlation and blue a negative correlation. The dendrogram represents the sample-wise hierarchical clustering. \textbf{(B, C, D)} Same as in A, but with OUTRIDER, PCA, or PEER controlled read counts. \textbf{(E, F, G, H)} Same as in A-D, but for the GTEx data set (249 samples and 17,065 genes).}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS04_zscoreSearch.png}
+    \caption{\textbf{Fitting the encoding dimension.} 
+\textbf{(A, B, C, D)} Area under the precision--recall curve plotted against the autoencoder encoding dimension \textit{q} for different Z-score amplitudes of corrupted read counts (colors). The pink curve corresponds to Z-score amplitudes sampled from a log-normal distribution (Materials and Methods). Large dots indicate the maximal AUC for a given Z-score amplitude of corrupted read counts. (A) is based on GTEx, (B) on Kremer, (C) on a simulation data set with a latent space of dimension 10 and counts drawn from a negative binomial distribution, and (D) on the same simulated latent space, but with counts drawn from a log-normal distribution and rounded to the nearest integer (Materials and Methods). The optimal encoding dimension was obtained using the log-normally distributed Z-score injection scheme (45, 21, 11, and 13 for GTEx, Kremer, negative binomial and log-normal simulations, respectively).}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS05_mu_plot.png}
+    \caption{\textbf{OUTRIDER recovers expected counts on simulated data.}
+Boxplots of squared differences between $\log_2$ of fitted means and $\log_2$ of simulated means
+binned into 9 logarithmically spaced mean gene expression bins for OUTRIDER, PCA and PEER on simulated data.
+\textbf{(A)} Corresponds to the negative binomial simulation scheme as in Figure S3C and 
+\textbf{(B)} corresponds to the log-normal simulation scheme as in Figure S3D.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS06_qqplots_gtex.png}
+    \\
+    \includegraphics[width=\textwidth]{FigureS07_qqplots_kremer.png}
+    \caption{\textbf{Negative binomial distribution fits for individual genes.}
+\newline
+\textbf{(A)} Quantile--quantile plots for 24 randomly selected genes from the GTEx data set.
+\textbf{(B)} Same as in A but for the Kremer data set.}
+\end{figure}
+\pagebreak
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS08_recall_gtex.png}
+    \caption{\textbf{Outlier detection benchmark in GTEx.}
+The proportion of simulated outliers among reported outliers (precision) plotted against the proportion of reported simulated outliers among all simulated outliers (recall) for 8 different ranking methods. The 8 ranking methods are 
+OUTRIDER (green solid), PCA (orange solid), and PEER (blue solid) sorted by \textit{P}-value with FDR $<$ 0.05, OUTRIDER (green dashed), PCA (orange dashed), and PEER (blue dashed) sorted by Z-score,
+DESeq2 normalization with known covariates sorted by Cook's distance (pink dotted),
+and DESeq2 normalization with known covariates sorted by absolute value of Pearson residuals (olive green dashed and dotted).
+Plots are provided for four simulated amplitudes (by row, with simulated absolute Z-scores of 2, 3, 4, and 6, top to bottom, respectively) and for three simulation scenarios (by column for aberrantly high and low counts, for aberrantly high counts, and for aberrantly low counts, left to right, respectively). 
+The ranking of outliers was bootstrapped to obtain 95\% confidence areas.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS09_recall_Kremer.png}
+    \caption{\textbf{Outlier detection benchmark in Kremer.}
+    Same as S6 but for the Kremer data set.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS10_recall_single_bin.png}
+    \caption{\textbf{Expression level dependent recall.} 
+Precision versus recall for artificially injected high and low expression outliers with a Z-score of 4 for OUTRIDER ranked by \textit{P}-values with FDR $<$ 0.05 (solid) and ranked by Z-score (dashed).
+\textbf{(A)} For all the injected outliers. \textbf{(B)} Splitted into 9 bins, 
+with equal number of read counts per bin, according to the mean expression level of the genes. Only a small fraction of the injected outliers was significant for the lowest bin, with a mean expression level smaller than 58.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{FigureS13_Kremer_benchmark.png}
+    \caption{\textbf{Benchmark of OUTRIDER using validated genes.} 
+\textbf{(A)} Venn diagram of the expression outliers detected by OUTRIDER (orange), expression outliers detected by \citeauthor{Kremer2017} (violet), and pathogenic outliers validated by \citeauthor{Kremer2017} (green) within the 48 samples of individuals undiagnosed at the start of the  \citeauthor{Kremer2017}  study\cite{Kremer2017}. \textbf{(B)} Venn diagram of expression outliers detected by OUTRIDER (orange), PEER (violet), PCA (pink) and validated pathogenic events (green) within the same data as in A.}
+\end{figure}
+\pagebreak
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{FigureS11_gtex_enrichment_all.png}
+    \caption{\textbf{OUTRIDER SNP enrichment.} 
+Enrichment of rare (MAF $<$ 0.05) moderate and high impact variants (according to VEP) computed on genes found to be aberrantly expressed using OUTRIDER plotted against enrichments computed on genes found to be aberrantly expressed using Z-scores published by \citet{Li2017}, PCA or PEER for all GTEx tissues using three different \textit{P}-value or Z-score cutoffs.}
+\end{figure}
+\pagebreak
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{FigureS12_sample_size_analysis.png}
+	\caption{\textbf{Sample size analysis.} Negative log$_{10}$ \textit{P}-values are plotted against the number of samples in the data set, for 6 pathogenic genes (validated in \citet{Kremer2017}). For each data set size, five random sets of samples containing the samples with the known outliers were drawn. Genes that are significant ($\text{FDR}<0.05$) are marked darker.}
+\end{figure}
+\pagebreak
+
+\FloatBarrier
+
+
+\section{Supplemental Methods}
+
+\subsection{Alternative outlier detection methods}
+
+In differential expression analyses outlier detections are used to obtain robust estimators of fold changes. 
+Notably, DESeq2\cite{Love2014} uses the Cook's distance to flag extreme observations, while edgeR\cite{Zhou2014}
+uses the Pearson residuals to downweight the impact of extreme observations on the model. To benchmark these
+outlier detection approaches, we calculated the Cook's distance and the Pearson residuals and included them in the benchmark.
+
+In the case of the Cook's distance, we ran a DESeq2 model against known covariates. 
+For GTEx, we used sex, age, and the ischemic time as covariates, while for Kremer, we used sex and the body site inferred from gene expression of the Hox family.
+After fitting the DESeq2 model, we extracted the Cook's distance from the object. For the Pearson residuals, we fitted the same model with DESeq2 to estimate the mean. The dispersion was estimated with the method of moments provided by DESeq2. For the count of sample $i$ and gene $j$, the Pearson residuals $r^{\text{Pearson}}_{ij}$ was then calculated as:
+
+% # https://support.bioconductor.org/p/57617
+% V <- assay(dds, "mu") + dispersions * assay(dds, "mu")^2
+% PearsonRes <- (counts(dds) - assay(dds, "mu"))/sqrt(V)
+\begin{align*}
+  &r^{\text{Pearson}}_{ij} = \frac{k_{ij} - \mu_{ij}}{\sqrt{v_{ij}}} ,\\
+   &\text{   where }v_{ij} = \mu_{ij} + \alpha_{j}^{\text{DESeq2}} \mu_{ij}^2 ,
+\end{align*}
+where $k_{ij}$ is the count, $\mu_{ij}$ its  estimated mean, $v_{ij}$ its estimated variance, and $\alpha_j$ is the gene-wise dispersion parameter (as parameterized and estimated by DESeq2).
+
+\subsection{Fitting of the parameters}
+
+\input{gradient.tex}
+
+
+
+\bibliography{bibliography}
+
+\end{document}

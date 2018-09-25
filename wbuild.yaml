@@ -1,0 +1,101 @@
+---
+webDir: /s/public_webshare/project/scared/PaperPipelineNew
+projectTitle: Statistical aberrant expression detection
+htmlOutputPath: Output/html
+
+# Folder used in the analysis
+DATADIR:        Output/data
+FIGDIR:         Output/paper_figures
+BENCHMARK_DIR:  RecallAnalysis
+
+# cutoffs
+MAF_LIMIT:         0.001
+FDR_LIMIT:         0.05
+Z_LIMIT:           0.00
+OUTLIER_RATIO:     0.005
+AE_IMPLEMENTATION: 'autoencoder'
+FIGURE_IMPLEMENTATION: 'autoencoder'
+
+# raw count data Kremer
+KREMER_COUNTS:               Data/rawdata/Kremer_supplementary_data1_raw_rna_gene_counts.gct
+KREMER_GENE_ANNOTATION_FILE: Data/rawdata/ucsc.knownGenes.db
+SAMPLE_ANNOTATION_FILE:      Data/rawdata/Kremer_sample_annotation.tsv
+
+# GTEx genotype files
+GTEXVCF_ANNO: Data/rawdata/vcfFiles/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Indiv_GATK_HaplotypeCaller.siteOnly.vep.vcf.gz
+GTEXVCF_GT: Data/rawdata/vcfFiles/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.vcf.gz
+
+# raw count data GTEx (V6P)
+GTEX_COUNTS:                 Data/rawdata/V6P/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_reads.gct.gz
+GTEX_GENE_ANNOTATION_FILE:   Data/rawdata/V6P/gencode.v19.genes.v6p_model.patched_contigs.gtf.gz
+GTEX_SAMPLE_ANNOTATION_FILE: Data/rawdata/V6P/GTEx_Data_V6_Annotations_SampleAttributesDS.txt
+GTEX_PHENO_ANNOTATION_FILE:  Data/rawdata/V6P/GTEx_Data_V6_Annotations_SubjectPhenotypesDS.txt
+
+
+# 
+# Recall pipeline
+# 
+# fixed values
+N_samples:  ['All']
+FDR_METHOD: ["BY"]
+P_BENCH:    0.0001
+
+# variable values
+inj: ["high", "low", "both"]
+inj_value: ['zscore=3', 'zscore=4','zscore=6', 'zscore=2']
+correction: ['pca', 'peer', 'autoencoder']
+datasets: ["SimulationNorm", "SimulationNBinom_fitY_Q10", "SimulationNBinom_fitN_Q10", "Skin_Not_Sun_Exposed_Suprapubic", "Kremer"]
+Qs: ["best"]
+
+## Tissues not existing in Li et al
+# "Minor_Salivary_Gland",
+# "Brain_Amygdala", 
+# "Cells_Leukemia_cell_line_CML",
+# "Brain_Substantia_nigra",
+# "Brain_Spinal_cord_cervical_c_1",
+GTEx_tissues: [
+    "Uterus",
+    "Brain_Anterior_cingulate_cortex_BA24",
+    "Vagina",
+    "Brain_Hypothalamus",
+    "Small_Intestine_Terminal_Ileum",
+    "Brain_Putamen_basal_ganglia",
+    "Brain_Hippocampus",
+    "Ovary",
+    "Spleen",
+    "Brain_Cerebellar_Hemisphere",
+    "Brain_Frontal_Cortex_BA9",
+    "Prostate",
+    "Brain_Nucleus_accumbens_basal_ganglia",
+    "Pituitary",
+    "Brain_Cortex",
+    "Brain_Caudate_basal_ganglia",
+    "Artery_Coronary",
+    "Liver",
+    "Cells_EBV_transformed_lymphocytes",
+    "Brain_Cerebellum",
+    "Adrenal_Gland",
+    "Colon_Sigmoid",
+    "Esophagus_Gastroesophageal_Junction",
+    "Pancreas",
+    "Testis",
+    "Stomach",
+    "Colon_Transverse",
+    "Heart_Atrial_Appendage",
+    "Breast_Mammary_Tissue",
+    "Adipose_Visceral_Omentum",
+    "Artery_Aorta",
+    "Skin_Not_Sun_Exposed_Suprapubic",
+    "Heart_Left_Ventricle",
+    "Esophagus_Muscularis",
+    "Cells_Transformed_fibroblasts",
+    "Nerve_Tibial",
+    "Esophagus_Mucosa",
+    "Artery_Tibial",
+    "Thyroid",
+    "Adipose_Subcutaneous",
+    "Lung",
+    "Skin_Sun_Exposed_Lower_leg",
+    "Muscle_Skeletal",
+    "Whole_Blood"
+]
